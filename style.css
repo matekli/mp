@@ -1,0 +1,81 @@
+.navigace{
+    margin: 0;
+}
+.navigace ul{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;    
+}
+
+.navigace li{
+    position: relative;
+    flex-grow: 1;
+    background-color: #222831;
+    height: 50px;
+    line-height: 50px;
+    
+}
+
+.navigace a{
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-weight: 900;
+    color: white;
+    font-size: 25px;
+}
+
+.navigace a:hover{
+    background-color: black;
+}
+
+h1:first-of-type{
+    background: black;
+    color: white;
+    margin: 0;
+    font-size: 25px;
+    height: 50px;
+    line-height: 50px;
+    padding-left: 20px;
+}
+
+#vypis_wrapper{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+#vypis th{
+    text-align: center;
+}
+#vypis td{
+    text-align: center;
+}
+
+.form-vlozeni{
+    display: inline-block;
+}
+
+.form-vlozeni div input{
+    width: 100%;
+}
+
+.form-login{
+    display: inline-block;
+}
+.vlozeni{
+    text-align: center;
+}
+.panelUzivatele{
+    text-align: right;
+}
+
+* {
+    box-sizing: border-box;
+}
+body{
+    
+}
+
