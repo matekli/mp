@@ -5,5 +5,5 @@
     unset($_SESSION["admin"]);
     unset($_SESSION["zprava-login"]);*/
     unset($_SESSION['prihlasenyUzivatel']);
-    header("Location: jezdci.php");
+    header("Location: index.php");
 ?>

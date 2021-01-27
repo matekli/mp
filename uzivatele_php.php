@@ -1,5 +1,10 @@
+
 <?php 
+
+
     require 'db_connect.php';
+    if (isset($_SESSION['prihlasenyUzivatel'])) {
+        if ($_SESSION['prihlasenyUzivatel']['admin']==1){
     $uzivatele = mysqli_query($db, "SELECT * FROM uzivatele;");
     $uzivatele = mysqli_fetch_all($uzivatele, MYSQLI_ASSOC);
 
@@ -52,5 +57,5 @@
         $_SESSION["zprava"]="Uživatel $id byl upraven";
         
     }}
-    
+    }}
 ?>

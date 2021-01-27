@@ -8,7 +8,7 @@
         unset($_SESSION['zprava-login']);
     }?>
     <?php if (isset($_SESSION['prihlasenyUzivatel'])) { 
-       echo $_SESSION['prihlasenyUzivatel'][3];     ?>
+       echo $_SESSION['prihlasenyUzivatel']['login'].' '.$_SESSION['prihlasenyUzivatel']['admin'];     ?>
        <button><a href="logout_php.php">Odhlásit se</a></button>
     <?php }else{?>
         <form method="POST" class="form-login">

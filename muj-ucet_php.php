@@ -1,6 +1,6 @@
 <?php 
     require 'db_connect.php';
-    $id = $_SESSION['prihlasenyUzivatel'][0];
+    $id = $_SESSION['prihlasenyUzivatel']['id'];
     $uzivatele = mysqli_query($db, "SELECT * FROM uzivatele WHERE ID_uzivatele=$id");
     $uzivatele = mysqli_fetch_array($uzivatele, MYSQLI_ASSOC);
 

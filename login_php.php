@@ -12,10 +12,11 @@
             $_SESSION['login']=$login;
             $_SESSION['admin']=$row['admin'];*/
             $uzivatel = array(
-                              $row['ID_uzivatele'],
-                              $row['jmeno'],
-                              $row['prijmeni'],
-                              $row['login']
+                              "id" => $row['ID_uzivatele'],
+                              "jmeno" => $row['jmeno'],
+                              "prijmeni" => $row['prijmeni'],
+                              "login" => $row['login'],
+                              "admin" => $row['admin']
             );
             $_SESSION['prihlasenyUzivatel']=$uzivatel;
             header("Location: jezdci.php");

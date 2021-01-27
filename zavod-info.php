@@ -22,7 +22,8 @@
     ?>
     <h1><?= $zavod[1] ?></h1>
     <a href="start-list.php?id=<?php echo $id;?>">Startovní listina</a>
-    
+    <?php if (isset($_SESSION['prihlasenyUzivatel'])) {
+            if ($_SESSION['prihlasenyUzivatel']['admin']==1){ ?>
     <div class="vlozeni">
         <form method="POST" class="form-vlozeni">
             <input type="hidden" name="ID_vysledky" value="">
@@ -56,14 +57,17 @@
             </div>
         </form>
     </div>
-
+    <?php }} ?>
     <table id="vypis" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
                 <th>Pořadí</th>
                 <th>Posádka</th>
                 <th>Auto</th>
-                <th>Administrace</th>
+                <?php if (isset($_SESSION['prihlasenyUzivatel'])) {
+                    if ($_SESSION['prihlasenyUzivatel']['admin']==1){ ?>
+                        <th>Administrace</th>
+                <?php }} ?>
             </tr>
         </thead>
         <tbody>
@@ -72,8 +76,11 @@
                 <td><?= $vysledek["poradi"].'.' ?></td> 
                 <td><?= $vysledek["jmeno"].' '.$vysledek["prijmeni"].' - '.$vysledek['navigator_jmeno'].' '.$vysledek['navigator_prijmeni'] ?></td>
                 <td><?= $vysledek["auto_nazev"] ?></td> 
-                <td><a href="zavod-info.php?id=<?php echo $id;?>&editovat=<?php echo $vysledek['ID_vysledky'];?>">Editovat</a> 
-                    <a href="zavod-info.php?id=<?php echo $id;?>&odstranit=<?php echo $vysledek['ID_vysledky'];?>">Odstranit</a></td>  
+                <?php if (isset($_SESSION['prihlasenyUzivatel'])) {
+                    if ($_SESSION['prihlasenyUzivatel']['admin']==1){ ?>
+                        <td><a href="zavod-info.php?id=<?php echo $id;?>&editovat=<?php echo $vysledek['ID_vysledky'];?>">Editovat</a> 
+                        <a href="zavod-info.php?id=<?php echo $id;?>&odstranit=<?php echo $vysledek['ID_vysledky'];?>">Odstranit</a></td>  
+                <?php }} ?>
             <?php } ?> 
             </tr>
         </tbody>     

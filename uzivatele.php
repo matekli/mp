@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <?php 
         require 'uzivatele_php.php';
     ?>
@@ -35,6 +36,8 @@
     <?php   
         require 'navigace.php';
     ?>
+    <?php if (isset($_SESSION['prihlasenyUzivatel'])) {
+            if ($_SESSION['prihlasenyUzivatel']['admin']==1){ ?>
     <h1>Uživatelé</h1>
     <div class="vlozeni">
         <form method="POST" class="form-vlozeni">
@@ -105,3 +108,4 @@
     ?>
 </body>
 </html>
+<?php }} ?>
