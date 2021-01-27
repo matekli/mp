@@ -116,7 +116,7 @@
             print_r($array);
             echo '</pre>';
         }
-        pre_r($result);
+        //pre_r($vysledky);        
     ?>
 </body>
 </html>

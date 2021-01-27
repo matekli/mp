@@ -104,9 +104,9 @@
         $jezdec = $result['jezdec'];
         $navigator = $result['navigator'];
         $poradi = $_POST['poradi'];
-        $car = $result['auto'];
+        $auto = $result['auto'];
         $zavod = $id;
-        mysqli_query($db,"INSERT INTO vysledky(jezdec,navigator,zavod,poradi,auto) VALUES('$jezdec','$navigator','$zavod','$poradi','$car')");
+        mysqli_query($db,"INSERT INTO vysledky(jezdec,navigator,zavod,poradi,auto) VALUES('$jezdec','$navigator','$zavod','$poradi','$auto')");
         $_SESSION['zprava']="Nový výsledek byl vložen"; 
     }
 
@@ -114,8 +114,7 @@
         $id_odstranit = $_GET['odstranit'];
         mysqli_query($db,"DELETE FROM vysledky WHERE ID_vysledky='$id_odstranit'");
         
-        $_SESSION["zprava"]="Výsledek $id_odstranit byl odstraněn";
-        
+        $_SESSION["zprava"]="Výsledek $id_odstranit byl odstraněn";    
     }
 
     $zavod = mysqli_query($db, "SELECT * FROM zavody WHERE ID_zavody='$id';");
@@ -131,20 +130,22 @@
                                     WHERE zavod='$id';");
     $vysledky_navigator = mysqli_fetch_all($vysledky_navigator,MYSQLI_ASSOC);
 
-    $vysledky_auto = mysqli_query($db, "SELECT nazev,skupina
-                                    FROM vysledky RIGHT JOIN auta ON vysledky.auto = auta.ID_auta 
+    /*$vysledky_auta = mysqli_query($db, "SELECT nazev,skupina
+                                    FROM auta INNER JOIN vysledky ON auta.ID_auta = vysledky.auto
                                     WHERE zavod='$id';");
-    $vysledky_auto = mysqli_fetch_all($vysledky_auto,MYSQLI_ASSOC);
+    $vysledky_auta = mysqli_fetch_all($vysledky_auta,MYSQLI_ASSOC);*/
 
     $sql = mysqli_query($db,"SELECT * FROM vysledky WHERE zavod='$id';");
     $pocet = mysqli_num_rows($sql);
 
-    for ($i=0; $i<$pocet;$i++){
-        $vysledky[$i]['navigator_jmeno']=$vysledky_navigator[$i]['jmeno'];   
-        $vysledky[$i]['navigator_prijmeni']=$vysledky_navigator[$i]['prijmeni']; 
-        $vysledky[$i]['auto_nazev']=$vysledky_auto[$i]['nazev'];
-        $vysledky[$i]['auto_skupina']=$vysledky_auto[$i]['skupina'];   
+    for ($i = 0; $i<$pocet;$i++){
+        $vysledky[$i]['navigator_jmeno'] = $vysledky_navigator[$i]['jmeno'];   
+        $vysledky[$i]['navigator_prijmeni'] = $vysledky_navigator[$i]['prijmeni']; 
+        $auto=$vysledky[$i]['auto'];
+        $vysledky_auto[$i] = mysqli_query($db, "SELECT *
+                                    FROM auta 
+                                    WHERE ID_auta = $auto");
+        $vysledky_auto[$i] = mysqli_fetch_assoc($vysledky_auto[$i]);
+        $vysledky[$i]['auto_nazev'] = $vysledky_auto[$i]['nazev'];
     }
-
-
 ?>
