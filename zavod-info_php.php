@@ -1,77 +1,10 @@
 <?php 
     require 'db_connect.php';
-    /*$navigatori = mysqli_query($db, "SELECT * FROM navigatori;");
-    $navigatori = mysqli_fetch_all($navigatori, MYSQLI_ASSOC);
-
-    $jezdci = mysqli_query($db, "SELECT * FROM jezdci;");
-    $jezdci = mysqli_fetch_all($jezdci, MYSQLI_ASSOC);
     
     $id=$_GET['id'];
-    $edit_jezdec='';
-    $edit_navigator='';
-    $edit_zavod='';
-    $edit_poradi='';
+    $actual_link =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['PHP_SELF']}?id=$id";
     $editovat = false;
-    if (isset($_POST["vlozit"])) {
-        $jezdec=$_POST['jezdec'];
-        $navigator=$_POST['navigator'];
-        $poradi=$_POST["poradi"];
-        mysqli_query($db,"INSERT INTO vysledky(jezdec,navigator,zavod,poradi) VALUES('$jezdec','$navigator','$id','$poradi')");
-        $_SESSION['zprava']="Nový výsledek byl vložen"; 
-    }
-    if (isset($_GET["odstranit"])) {
-        $id_odstranit = $_GET['odstranit'];
-        mysqli_query($db,"DELETE FROM vysledky WHERE ID_vysledky='$id_odstranit'");
-        
-        $_SESSION["zprava"]="Výsledek $id_odstranit byl odstraněn";
-        
-    }
-
-    if (isset($_GET["editovat"])) {
-        $id_edit = $_GET["editovat"];
-        $result = mysqli_query($db,"SELECT * FROM vysledky WHERE ID_vysledky='$id_edit'");
-        $result = mysqli_fetch_array($result, MYSQLI_ASSOC);
-        $edit_jezdec = $result["jezdec"];
-        $edit_navigator = $result["navigator"];
-        $edit_zavod = $result["zavod"];
-        $edit_poradi = $result["poradi"];
-        $editovat = true;
-     
-    if (isset($_POST["editovat"])) {
-        $edit_jezdec = $_POST["jezdec"];
-        $edit_navigator = $_POST["navigator"];
-        $edit_zavod = $_POST["zavod"];
-        $edit_poradi = $_POST["poradi"];
-    
-        mysqli_query($db,"UPDATE vysledky SET jezdec='$edit_jezdec',navigator='$edit_navigator',zavod='$edit_zavod',poradi='$edit_poradi' WHERE ID_vysledky='$id_edit'");
-        
-        $_SESSION["zprava"]="Výsledek $id_edit byl upraven";
-        
-    }}
-
-    $zavod = mysqli_query($db, "SELECT * FROM zavody WHERE ID_zavody='$id';");
-    $zavod = mysqli_fetch_row($zavod);
-
-    $vysledky = mysqli_query($db, "SELECT *
-                                    FROM jezdci  JOIN vysledky ON jezdci.ID_jezdci = vysledky.jezdec 
-                                    WHERE zavod='$id';");
-    $vysledky = mysqli_fetch_all($vysledky,MYSQLI_ASSOC);
-
-    $vysledky_navigator = mysqli_query($db, "SELECT jmeno,prijmeni
-                                    FROM navigatori JOIN vysledky ON navigatori.ID_navigatori = vysledky.navigator
-                                    WHERE zavod='$id';");
-    $vysledky_navigator = mysqli_fetch_all($vysledky_navigator,MYSQLI_ASSOC);
-
-    $sql = mysqli_query($db,"SELECT * FROM vysledky WHERE zavod='$id';");
-    $pocet = mysqli_num_rows($sql);
-
-    for ($i=0; $i<$pocet;$i++){
-        $vysledky[$i]['navigator_jmeno']=$vysledky_navigator[$i]['jmeno'];   
-        $vysledky[$i]['navigator_prijmeni']=$vysledky_navigator[$i]['prijmeni']; 
-    }*/
-
-    $id=$_GET['id'];
-
+    $poradi='';
     $startovky = mysqli_query($db, "SELECT *
                                     FROM jezdci  JOIN startovky ON jezdci.ID_jezdci = startovky.jezdec 
                                     WHERE zavod='$id';");
@@ -108,6 +41,7 @@
         $zavod = $id;
         mysqli_query($db,"INSERT INTO vysledky(jezdec,navigator,zavod,poradi,auto) VALUES('$jezdec','$navigator','$zavod','$poradi','$auto')");
         $_SESSION['zprava']="Nový výsledek byl vložen"; 
+        header("Refresh: 0");
     }
 
     if (isset($_GET["odstranit"])) {
@@ -115,6 +49,39 @@
         mysqli_query($db,"DELETE FROM vysledky WHERE ID_vysledky='$id_odstranit'");
         
         $_SESSION["zprava"]="Výsledek $id_odstranit byl odstraněn";    
+    }
+
+    if (isset($_GET["editovat"])) {
+        $id_editovat = $_GET["editovat"];
+        $result = mysqli_query($db,"SELECT * FROM vysledky WHERE ID_vysledky='$id_editovat'");
+        $result = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $editovat = true;
+        $poradi = $result['poradi'];
+        $jezdec = $result['jezdec'];
+        $vysledky_jezdec_edit = mysqli_query($db, "SELECT *
+                                    FROM jezdci JOIN startovky ON jezdci.ID_jezdci = startovky.jezdec 
+                                    WHERE ID_jezdci = $jezdec;");
+        $vysledky_jezdec_edit = mysqli_fetch_assoc($vysledky_jezdec_edit);
+
+        $navigator = $result['navigator'];
+        $vysledky_navigator_edit = mysqli_query($db, "SELECT *
+                                    FROM navigatori JOIN startovky ON navigatori.ID_navigatori = startovky.navigator
+                                    WHERE ID_navigatori = $navigator;");
+        $vysledky_navigator_edit = mysqli_fetch_assoc($vysledky_navigator_edit);
+
+        $auto = $result['auto'];
+        $vysledky_auto_edit = mysqli_query($db, "SELECT *
+                                    FROM auta
+                                    WHERE ID_auta=$auto");
+        $vysledky_auto_edit = mysqli_fetch_assoc($vysledky_auto_edit);
+     
+        if (isset($_POST["editovat"])) {
+            $poradi = $_POST["poradi"];
+            mysqli_query($db,"UPDATE vysledky SET poradi='$poradi' WHERE ID_vysledky='$id_editovat'");
+            $_SESSION["zprava"]="Výsledek $id_editovat byl upraven"; 
+            header("Location:$actual_link"); 
+                
+        }
     }
 
     $zavod = mysqli_query($db, "SELECT * FROM zavody WHERE ID_zavody='$id';");
@@ -125,15 +92,10 @@
                                     WHERE zavod='$id';");
     $vysledky = mysqli_fetch_all($vysledky,MYSQLI_ASSOC);
 
-    $vysledky_navigator = mysqli_query($db, "SELECT jmeno,prijmeni
+    $vysledky_navigator = mysqli_query($db, "SELECT *
                                     FROM navigatori JOIN vysledky ON navigatori.ID_navigatori = vysledky.navigator
                                     WHERE zavod='$id';");
     $vysledky_navigator = mysqli_fetch_all($vysledky_navigator,MYSQLI_ASSOC);
-
-    /*$vysledky_auta = mysqli_query($db, "SELECT nazev,skupina
-                                    FROM auta INNER JOIN vysledky ON auta.ID_auta = vysledky.auto
-                                    WHERE zavod='$id';");
-    $vysledky_auta = mysqli_fetch_all($vysledky_auta,MYSQLI_ASSOC);*/
 
     $sql = mysqli_query($db,"SELECT * FROM vysledky WHERE zavod='$id';");
     $pocet = mysqli_num_rows($sql);
@@ -149,3 +111,4 @@
         $vysledky[$i]['auto_nazev'] = $vysledky_auto[$i]['nazev'];
     }
 ?>
+    

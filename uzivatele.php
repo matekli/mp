@@ -64,9 +64,9 @@
                 </div>
             <?php } ?> 
 
-            <?php   if (isset($_SESSION['zprava'])){
+            <?php   /*if (isset($_SESSION['zprava'])){
                         echo $_SESSION['zprava'];           
-                    } 
+                    } */
             ?>  
         </form>
     </div>

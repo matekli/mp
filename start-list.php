@@ -36,7 +36,7 @@
             <?php foreach ($startovky as $startovka) { ?>
             <tr>
                 <td><?= $startovka["cislo"] ?></td>
-                <td><?= $startovka["jmeno"].' '.$startovka["prijmeni"].'-'.$startovka["navigator_jmeno"].' '.$startovka["navigator_prijmeni"] ?></td>
+                <td><?= $startovka["jmeno"].' '.$startovka["prijmeni"].' - '.$startovka["navigator_jmeno"].' '.$startovka["navigator_prijmeni"] ?></td>
                 <td><?= $startovka["nazev_auto"] ?></td>
                 <td><?= $startovka["skupina_auto"] ?></td>
             <?php } ?> 
