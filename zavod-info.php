@@ -46,9 +46,9 @@
                 </div>
             <?php }else {?> 
                 <div>
-                    <input type="text" value="<?= $vysledky_jezdec_edit["jmeno"].' '.$vysledky_jezdec_edit["prijmeni"].' - '
-                                                .$vysledky_navigator_edit["jmeno"].' '.$vysledky_navigator_edit["prijmeni"]
-                                                .' ('.$vysledky_auto_edit['nazev'] ?>" readonly>
+                    <span id="span-vysledky"role="textbox" contenteditable><?= $vysledky_jezdec_edit["jmeno"].' '.$vysledky_jezdec_edit["prijmeni"].' - '
+                        .$vysledky_navigator_edit["jmeno"].' '.$vysledky_navigator_edit["prijmeni"]
+                        .' ('.$vysledky_auto_edit['nazev'].')' ?></span> 
                 </div>
                 <div>
                     <input type="submit" name="editovat" value="Editovat">
