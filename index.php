@@ -14,10 +14,11 @@
 </head>
 <body>
     <?php 
-        require 'login.php';
+        /*require 'header.php';*/
+        require 'login.php'; 
+        require 'navigace.php'; 
     ?>
     <?php   
-        require 'navigace.php';    
         /*function pre_r($array){
             echo '<pre>';
             print_r($array);

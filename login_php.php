@@ -19,7 +19,7 @@
                               "admin" => $row['admin']
             );
             $_SESSION['prihlasenyUzivatel']=$uzivatel;
-            header("Location: jezdci.php");
+            header("Location: index.php");
             exit();
           }
           else $_SESSION['zprava-login'] = "Špatné heslo";
